@@ -1,18 +1,16 @@
-package cn.loverot.basic.action.web;
+package cn.loverot.basic.controller.web;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
-import cn.loverot.basic.action.BaseAction;
+import cn.loverot.basic.controller.BaseController;
 import cn.loverot.basic.constant.e.SessionConstEnum;
 import cn.loverot.basic.utils.BasicUtil;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -21,7 +19,7 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping
-public class CodeAction extends BaseAction {
+public class CodeController extends BaseController {
 
     @RequestMapping(value = "/code",produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody

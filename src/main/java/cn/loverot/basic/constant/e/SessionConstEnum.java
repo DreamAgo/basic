@@ -21,7 +21,7 @@ The MIT License (MIT) * Copyright (c) 2016 铭飞科技(mingsoft.net)
 
 package cn.loverot.basic.constant.e;
 
-import cn.loverot.base.constant.e.BaseSessionEnum;
+import cn.loverot.common.constant.e.BaseSessionEnum;
 
 
 /**

@@ -19,18 +19,17 @@ The MIT License (MIT) * Copyright (c) 2016 铭飞科技(mingsoft.net)
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package cn.loverot.basic.action;
+package cn.loverot.basic.controller;
 
 import cn.hutool.core.io.FileUtil;
-import cn.loverot.base.constant.Const;
 import cn.loverot.basic.autoconfigure.BasicProperties;
 import cn.loverot.basic.bean.FileUploadBean;
 import cn.loverot.basic.constant.e.SessionConstEnum;
 import cn.loverot.basic.utils.BasicUtil;
+import cn.loverot.common.constant.Const;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,17 +43,10 @@ import java.io.IOException;
  *          历史修订：<br/>
  */
 @Api("基础应用层的父类base")
-public abstract class BaseAction extends  cn.loverot.base.action.BaseAction {
+public abstract class BaseController extends cn.loverot.common.controller.BaseController {
 	@Autowired
 	private BasicProperties basicProperties;
 	public final String RAND_CODE="randCode";
-
-	@Override
-	protected String getResString(String key) {
-		// TODO Auto-generated method stub
-		return cn.loverot.basic.constant.Const.RESOURCES.getString(key);
-	}
-
 
 	/**
 	 * 获取验证码

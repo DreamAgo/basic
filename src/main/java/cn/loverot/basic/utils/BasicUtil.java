@@ -1,19 +1,28 @@
 package cn.loverot.basic.utils;
 
 import cn.hutool.core.convert.Convert;
-import cn.loverot.base.constant.e.BaseSessionEnum;
-import cn.loverot.basic.constant.e.SessionConstEnum;
+import cn.hutool.core.util.ObjectUtil;
+import cn.loverot.basic.constant.Const;
+import cn.loverot.common.constant.e.BaseSessionEnum;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.omg.CORBA.UNKNOWN;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.compile;
 
 /**
  * 基础工具类
@@ -22,6 +31,7 @@ import java.util.List;
  */
 @Component
 public class BasicUtil {
+    private static final String UNKNOWN = "unknown";
     /**
      *当前页数
      */
@@ -43,7 +53,16 @@ public class BasicUtil {
         PageInfo page = new PageInfo(list);
         return page;
     }
+    public static Map<String, Object> getDataTable(IPage<?> pageInfo) {
+        return getDataTable(pageInfo, Const.DATA_MAP_INITIAL_CAPACITY);
+    }
 
+    public static Map<String, Object> getDataTable(IPage<?> pageInfo, int dataMapInitialCapacity) {
+        Map<String, Object> data = new HashMap<>(dataMapInitialCapacity);
+        data.put("rows", pageInfo.getRecords());
+        data.put("total", pageInfo.getTotal());
+        return data;
+    }
     /**
      * 获取整型值
      *
@@ -234,6 +253,45 @@ public class BasicUtil {
             return temp;
         }
 
-
+    }
+    /**
+     * 判断是否为 ajax请求
+     *
+     * @return boolean
+     */
+    public static boolean isAjaxRequest() {
+        return (ObjectUtil.isNotNull(SpringUtil.getRequest().getHeader("X-Requested-With"))
+                && "XMLHttpRequest".equals(SpringUtil.getRequest().getHeader("X-Requested-With")));
+    }
+    /**
+     * 获取 IP地址
+     * 使用 Nginx等反向代理软件， 则不能通过 request.getRemoteAddr()获取 IP地址
+     * 如果使用了多级反向代理的话，X-Forwarded-For的值并不止一个，而是一串IP地址，
+     * X-Forwarded-For中第一个非 unknown的有效IP字符串，则为真实IP地址
+     */
+    public static String getIpAddr() {
+        HttpServletRequest request =SpringUtil.getRequest();
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : ip;
+    }
+    /**
+     * 判断是否包含中文
+     *
+     * @param value 内容
+     * @return 结果
+     */
+    public static boolean containChinese(String value) {
+        Pattern p = compile("[\u4e00-\u9fa5]");
+        Matcher m = p.matcher(value);
+        return m.find();
     }
 }

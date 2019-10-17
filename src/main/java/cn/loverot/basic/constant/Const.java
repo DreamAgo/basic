@@ -36,7 +36,9 @@ import java.util.ResourceBundle;
 public final class Const {
 
 	public final static ResourceBundle RESOURCES = ResourceBundle.getBundle("cn.loverot.basic.resources.resources");
-
-	
+	/**
+	 * getDataTable 中 HashMap 默认的初始化容量
+	 */
+	public static final int DATA_MAP_INITIAL_CAPACITY = 4;
 	
 }

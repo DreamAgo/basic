@@ -2,6 +2,8 @@ package cn.loverot.basic.entity;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @Author: 铭飞开源团队--huise
  * @Date: 2019/10/17 1:56
@@ -11,6 +13,7 @@ public class FileUploadEntity {
      * 上传文件夹
      */
     private String uploadPath;
+    @NotNull(message = "{required}")
     private MultipartFile file;
     /**
      * 文件名
