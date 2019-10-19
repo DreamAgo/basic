@@ -33,13 +33,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public ResultResponse handleException(Exception e) {
         log.error("系统内部异常，异常信息", e);
-        return ResultResponse.build().code(HttpStatus.INTERNAL_SERVER_ERROR).message("系统内部异常");
+        return ResultResponse.fail().message("系统内部异常");
     }
 
     @ExceptionHandler(value = HsException.class)
     public ResultResponse handleHsException(HsException e) {
         log.error("内部错误：{}", e.getMessage());
-        return ResultResponse.build().code(HttpStatus.INTERNAL_SERVER_ERROR).message(e.getMessage());
+        return ResultResponse.fail().message(e.getMessage());
     }
 
     /**
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
             message.append(error.getField()).append(error.getDefaultMessage()).append(",");
         }
         message = new StringBuilder(message.substring(0, message.length() - 1));
-        return ResultResponse.build().code(HttpStatus.BAD_REQUEST).message(message.toString());
+        return ResultResponse.bad().message(message.toString());
     }
 
     /**
@@ -75,32 +75,32 @@ public class GlobalExceptionHandler {
             message.append(pathArr[1]).append(violation.getMessage()).append(",");
         }
         message = new StringBuilder(message.substring(0, message.length() - 1));
-        return ResultResponse.build().code(HttpStatus.BAD_REQUEST).message(message.toString());
+        return ResultResponse.bad().message(message.toString());
     }
 
     @ExceptionHandler(value = UnauthorizedException.class)
     public ResultResponse handleUnauthorizedException(UnauthorizedException e) {
         log.debug("UnauthorizedException", e);
-        return ResultResponse.build().code(HttpStatus.FORBIDDEN).message(e.getMessage());
+        return ResultResponse.forbid().message(e.getMessage());
     }
 
     @ExceptionHandler(value = AuthenticationException.class)
     public ResultResponse handleAuthenticationException(AuthenticationException e) {
         log.debug("AuthenticationException", e);
-        return ResultResponse.build().code(HttpStatus.INTERNAL_SERVER_ERROR).message(e.getMessage());
+        return ResultResponse.fail().message(e.getMessage());
     }
 
     @ExceptionHandler(value = AuthorizationException.class)
     public ResultResponse handleAuthorizationException(AuthorizationException e){
         log.debug("AuthorizationException", e);
-        return  ResultResponse.build().code(HttpStatus.UNAUTHORIZED).message(e.getMessage());
+        return  ResultResponse.unAuth().message(e.getMessage());
     }
 
 
     @ExceptionHandler(value = ExpiredSessionException.class)
     public ResultResponse handleExpiredSessionException(ExpiredSessionException e) {
         log.debug("ExpiredSessionException", e);
-        return ResultResponse.build().code(HttpStatus.UNAUTHORIZED).message(e.getMessage());
+        return ResultResponse.unAuth().message(e.getMessage());
     }
 
 }

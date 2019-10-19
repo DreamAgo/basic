@@ -40,6 +40,6 @@ public class FileController extends BaseController {
 	@ResponseBody
 	public ResultResponse upload(@Valid FileUploadEntity fileUploadEntity) throws IOException {
 		FileUploadBean config = new FileUploadBean(fileUploadEntity.getUploadPath(),fileUploadEntity.getFile(),null);
-		return ResultResponse.build().ok().data(this.upload(config));
+		return ResultResponse.ok().data(this.upload(config));
 	}
 }
