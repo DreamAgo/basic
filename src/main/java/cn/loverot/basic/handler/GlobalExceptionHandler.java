@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ResultResponse handleException(Exception e) {
-        log.error("系统内部异常，异常信息", e);
+        log.error("系统内部异常，异常信息:{}", e.getMessage());
         return ResultResponse.fail().message("系统内部异常");
     }
 
