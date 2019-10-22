@@ -93,14 +93,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = AuthorizationException.class)
     public ResultResponse handleAuthorizationException(AuthorizationException e){
         log.debug("AuthorizationException", e);
-        return  ResultResponse.unAuth().message(e.getMessage());
+        return  ResultResponse.forbid().message(e.getMessage());
     }
 
 
     @ExceptionHandler(value = ExpiredSessionException.class)
     public ResultResponse handleExpiredSessionException(ExpiredSessionException e) {
         log.debug("ExpiredSessionException", e);
-        return ResultResponse.unAuth().message(e.getMessage());
+        return ResultResponse.forbid().message(e.getMessage());
     }
 
 }
