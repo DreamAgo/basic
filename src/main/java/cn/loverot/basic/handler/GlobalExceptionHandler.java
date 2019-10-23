@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = HsException.class)
     public ResultResponse handleHsException(HsException e) {
-        log.error("内部错误：{}", e.getMessage());
+        log.error("内部错误：{}", e);
         return ResultResponse.fail().message(e.getMessage());
     }
 
